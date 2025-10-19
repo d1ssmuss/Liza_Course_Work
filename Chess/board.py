@@ -53,7 +53,7 @@ class Board:
                 ):
                     if not self.match_color(target, pawn.color):
                         return target
-                elif int(target[1]) - 1 == 5:  # Which is the only way to en passant
+                elif int(target[1]) - 1 == 5:
                     en_passant: str = target[0] + str(int(target[1]) - 1)
                     en_passant_square: Union[Pawn, None] = self.get_piece(en_passant)
                     if en_passant_square is not None and isinstance(
@@ -181,7 +181,7 @@ class Board:
                 continue
             target: str = get_square_name(row_order, col_order)
             if piece.can_move(target):
-                if isinstance(piece, Pawn):  # Check for en passant case
+                if isinstance(piece, Pawn):
                     if self.pawn_move(pos, target, piece.color, is_active) is not False:
                         available_squares.extend(
                             self.keep_checking_for_squares(
@@ -191,7 +191,7 @@ class Board:
                                 is_active,
                             )
                         )
-                elif isinstance(piece, King):  # Check for castle case
+                elif isinstance(piece, King):
                     if self.king_move(pos, target, piece.color, is_active):
                         available_squares.extend(
                             self.keep_checking_for_squares(
@@ -383,3 +383,4 @@ def get_opposite_color(color: Color) -> Color:
 
 def keep_wanted(moves: list[str], wanted: list[str]) -> list[str]:
     return [move for move in moves if move in wanted]
+
