@@ -150,7 +150,7 @@ class Knight(Piece):
 
 class Pawn(Piece):
 
-    jump = False  # If the pawn moves two squares, jump will be True
+    jump = False
 
     def __init__(self, pos: str, color: Color) -> None:
         super().__init__(pos, color)
@@ -189,7 +189,7 @@ class Pawn(Piece):
                         self.jump = True
                         return True
                 else:
-                    return self.move_diagonal(target, self.color)  # Capture diagonally
+                    return self.move_diagonal(target, self.color)
             elif self.color == Color.BLACK:
                 if target[0] == self.pos[0]:
                     if int(target[1]) - int(self.pos[1]) == -1:
@@ -198,5 +198,6 @@ class Pawn(Piece):
                         self.jump = True
                         return True
                 else:
-                    return self.move_diagonal(target, self.color)  # Capture diagonally
+                    return self.move_diagonal(target, self.color) 
         return False
+
