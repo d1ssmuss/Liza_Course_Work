@@ -150,11 +150,11 @@ subtitle_label = tk.Label(header_frame,
                           bg='#2c3e50')
 subtitle_label.pack()
 
-# Создание вкладок
+
 notebook = ttk.Notebook(root)
 notebook.pack(expand=1, fill="both", padx=20, pady=10)
 
-# Вкладка регистрации
+
 register_tab = ttk.Frame(notebook)
 notebook.add(register_tab, text="Регистрация")
 
@@ -177,7 +177,6 @@ entry_password.grid(row=1, column=1, sticky='w', pady=(0, 20), padx=(10, 0))
 button_register = ttk.Button(register_container, text="Создать аккаунт", command=register)
 button_register.grid(row=2, column=0, columnspan=2, pady=10)
 
-# Вкладка входа
 login_tab = ttk.Frame(notebook)
 notebook.add(login_tab, text="Вход")
 
@@ -200,11 +199,11 @@ entry_login_password.grid(row=1, column=1, sticky='w', pady=(0, 20), padx=(10, 0
 button_login = ttk.Button(login_container, text="Войти в игру", command=login)
 button_login.grid(row=2, column=0, columnspan=2, pady=10)
 
-# Футер с декоративными элементами
+
 footer_frame = tk.Frame(root, bg='#2c3e50', height=50)
 footer_frame.pack(fill='x', side='bottom')
 
-# Декоративные шахматные фигуры в футере
+
 chess_chars = ["♔", "♕", "♖", "♗", "♘", "♙"]
 chess_text = "   ".join(chess_chars)
 footer_label = tk.Label(footer_frame,
@@ -216,12 +215,12 @@ footer_label.pack(pady=10)
 
 root.mainloop()
 
-# Screen
+
 WIDTH, HEIGHT = 820, 600
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Эндшпиль 'Король, 2 слона - Король, конь, пешка' ")
 
-# Colors
+
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DARK_BROWN = (166, 119, 91)
@@ -317,7 +316,6 @@ def draw_screen(
     SCREEN.blit(ci.CHESS_BOARD, (0, 0))
     pygame.draw.rect(SCREEN, DARK_BROWN, (600, 380, 400, 220))
 
-    # Рисуем информацию о текущем игроке ниже
     draw_current_player(current_player)
     SCREEN.blit(CHECK_TEXT, (680, 520)) if check else None
 
@@ -366,16 +364,13 @@ def draw_clock_with_frame(x, y, player_name, time_str, is_active, color):
     frame_color = YELLOW if is_active else LIGHT_BROWN
     bg_color = LIGHT_GRAY
 
-    # Рисуем рамку
     pygame.draw.rect(SCREEN, frame_color, (x, y, clock_width, clock_height), 3)
     pygame.draw.rect(SCREEN, bg_color, (x + 2, y + 2, clock_width - 4, clock_height - 4))
 
-    # Текст с именем игрока
     name_color = BLACK if color == Color.WHITE else WHITE
     player_text = SMALL_FONT.render(player_name, True, name_color)
     SCREEN.blit(player_text, (x + 10, y + 8))
 
-    # Время
     time_color = DARK_RED if is_active else BLACK
     time_text = FONT.render(time_str, True, time_color)
     SCREEN.blit(time_text, (x + 70, y + 30))
@@ -384,7 +379,6 @@ def draw_clock_with_frame(x, y, player_name, time_str, is_active, color):
 def draw_winner(current_player: Color, is_checkmate: bool, time_winner: Union[Color, None] = None) -> None:
     if time_winner:
         winner_color = "Чёрные" if time_winner == Color.WHITE else "Белые"
-        # Используем меньший шрифт для сообщения о времени
         winner_text = MATE_FONT.render(f"{winner_color} победили по времени!", True, GREEN)
         text_rect = winner_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         SCREEN.blit(winner_text, text_rect)
@@ -412,7 +406,6 @@ def draw_current_player(current_player: Color) -> None:
     player: str = "Белых" if current_player == Color.WHITE else "Чёрных"
     color_of_player = WHITE if current_player == Color.WHITE else BLACK
     current_player_text = FONT.render(player, True, color_of_player)
-    # Перемещаем текст ниже, под часы
     SCREEN.blit(current_text, (680, 460))
     SCREEN.blit(current_player_text, (670, 490))
 
@@ -593,7 +586,6 @@ def start():
             king_pos: str = board.get_king_pos(get_opposite_color(piece.color))
             king: King = board.get_piece(king_pos)
             move(board, piece, piece.pos, target)
-            # If check
             if board.can_check(board.get_piece(target)):
                 king.in_check = True
                 check = True
@@ -601,15 +593,14 @@ def start():
                     get_opposite_color(piece.color)
                 )
                 king_moves_to_live: list = board.get_valid_moves(king_pos)
-                # If there are moves to cover check
                 if moves_to_cover_check:
                     # Extend with the king's moves
                     moves_to_cover_check.extend(king_moves_to_live)
-                else:  # If there are no moves to cover check
+                else:
                     if not king_moves_to_live:
                         is_mate = True
                         is_checkmate = True
-            else:  # If not check
+            else:
                 king.in_check = False
                 check = False
                 if board.stalemate(get_opposite_color(piece.color)):
